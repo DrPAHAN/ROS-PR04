@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "practice_id": "PR04",
+  "commit": "8ab13268110135b0fa635c83042033a3ac1aead0",
+  "course_kit": {
+    "version": "v1-w07",
+    "archive_sha256": "9b7fdd5424d3d97e47d51dbe23064934585e62135dc2902844dd679529bda929"
+  },
+  "commands": ["replace-with-executed-command"],
+  "tests": [{"name": "replace-with-test-name", "status": "passed"}],
+  "defect": {
+    "reproducer": "Команда и наблюдаемый симптом до исправления",
+    "root_cause": "Причинное объяснение",
+    "proof_after": "Команда и результат после исправления"
+  },
+  "claims": {
+    "public_tests_passed": true,
+    "defect_reproduced": true,
+    "defect_fixed": true
+  },
+  "time": {
+    "contact_academic_hours": "replace-with-number",
+    "self_study_hours": "replace-with-number"
+  },
+  "ai_used": false
+}

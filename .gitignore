@@ -6,3 +6,4 @@ log/
 *.sha256.txt
 __pycache__/
 *.pyc
+robotics-course-kit-v1/
