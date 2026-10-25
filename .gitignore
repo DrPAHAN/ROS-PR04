@@ -1,0 +1,8 @@
+build/
+install/
+log/
+.course-kit/
+*.tar.gz
+*.sha256.txt
+__pycache__/
+*.pyc

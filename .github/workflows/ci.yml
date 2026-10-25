@@ -1,0 +1,51 @@
+name: ROS PR03 checks
+
+on: [push, pull_request]
+
+env:
+  COURSE_KIT_URL: "https://ros.lms.ci.nsu.ru/downloads/robotics-course-kit-v1-wNN-DIGEST12.tar.gz"
+  COURSE_KIT_SHA256: "9b7fdd5424d3d97e47d51dbe23064934585e62135dc2902844dd679529bda929"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: osrf/ros:lyrical-desktop-full@sha256:9b7fdd5424d3d97e47d51dbe23064934585e62135dc2902844dd679529bda929
+    steps:
+      - name: Prepare Node for checkout
+        shell: bash
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends nodejs
+          node --version
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build patrol
+        shell: bash
+        run: |
+          source /opt/ros/lyrical/setup.bash
+          colcon build --symlink-install --packages-select patrol
+
+      - name: Test patrol
+        shell: bash
+        run: |
+          source /opt/ros/lyrical/setup.bash
+          source install/setup.bash
+          colcon test --packages-select patrol --event-handlers console_direct+
+          colcon test-result --verbose
+
+      - name: Download course kit
+        shell: bash
+        run: |
+          curl -fsSLo kit.tar.gz "$COURSE_KIT_URL"
+          printf '%s  %s\n' "$COURSE_KIT_SHA256" kit.tar.gz | sha256sum -c -
+          mkdir -p .course-kit
+          tar -xzf kit.tar.gz -C .course-kit
+
+      - name: Check PR03 evidence
+        shell: bash
+        run: python3 .course-kit/v1/tools/check_practice.py PR03 --submission .
